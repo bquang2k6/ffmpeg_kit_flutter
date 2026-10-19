@@ -1,53 +1,5 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
+/.tmp/
+/*.log
+/prebuilt/
 .DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
-android/ffmpeg-kit-https/
-
-# Windows prebuilt FFmpegKit DLLs/headers (downloaded at build time or copied
-# from FFMPEGKIT_LOCAL_DIR; never commit the large binaries).
-windows/ffmpeg-kit/
-
-# iOS/macOS: frameworks fetched at build time by scripts/setup_ios.sh and
-# scripts/setup_macos.sh (the podspec prepare_command), then converted to
-# .xcframework. Downloaded from the GitHub release. Never commit or publish.
-ios/Frameworks/
-macos/Frameworks/
-windows/ffmpeg-kit/include/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-# Libraries should not include pubspec.lock, per https://dart.dev/guides/libraries/private-files#pubspeclock.
-/pubspec.lock
-**/doc/api/
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-build/
-
-# FVM Version Cache
-.fvm/
-.recall/
-
-# SPM: local test copies of prebuilt xcframeworks (never commit)
-ios/ffmpeg_kit_flutter_new/Frameworks/
-macos/ffmpeg_kit_flutter_new/Frameworks/
+.idea

@@ -1,69 +1,83 @@
-# FFmpegKit for Flutter: Full GPL
+# FFmpegKit ![GitHub release](https://img.shields.io/badge/release-v6.0-blue.svg) ![Maven Central](https://img.shields.io/maven-central/v/com.arthenica/ffmpeg-kit-min) ![CocoaPods](https://img.shields.io/cocoapods/v/ffmpeg-kit-ios-min) ![pub](https://img.shields.io/pub/v/ffmpeg_kit_flutter.svg) ![npm](https://img.shields.io/npm/v/ffmpeg-kit-react-native.svg)
 
-[![pub package](https://img.shields.io/pub/v/ffmpeg_kit_flutter_new?logo=dart)](https://pub.dev/packages/ffmpeg_kit_flutter_new)
-[![FFmpeg](https://img.shields.io/badge/FFmpeg-8.1.2-green)](https://ffmpeg.org/download.html)
-[![License](https://img.shields.io/badge/license-GPL--3.0-blue)](LICENSE)
-[![Discord](https://img.shields.io/discord/1387108888452665427?logo=discord&logoColor=white&label=discord)](https://discord.gg/8NVwykjA)
+## Notice
+FFmpegKit has been officially retired. There will be no further `ffmpeg-kit` releases.
 
-Run FFmpeg and FFprobe commands from Dart on Android, iOS, macOS, Windows and Linux.
+See [Saying Goodbye to FFmpegKit @ medium](https://medium.com/@tanersener/saying-goodbye-to-ffmpegkit-33ae939767e1) to learn why we made this decision.
 
-This is a maintained fork of [FFmpegKit](https://github.com/arthenica/ffmpeg-kit/tree/main/flutter/flutter), which is no longer developed upstream, updated for the Android V2 embedding and current Flutter releases. `ffmpeg_kit_flutter_new` is the **Full GPL** variant: every supported library, including the GPL codecs. See [Choosing a package](#choosing-a-package) for the alternatives.
+All previously released `ffmpeg-kit` binaries will be removed according to the following schedule.
 
-## Features
+| FFmpegKit Version |  Available Until   |
+|:-----------------:|:------------------:|
+|   Less than 6.0   | February 1st, 2025 |
+|        6.0        |  April 1st, 2025   |
 
-- FFmpeg 8.1.2 and FFprobe, with per-session logs, statistics and completion callbacks.
-- One Dart API for Android, iOS, macOS, Windows (x86_64) and Linux (x86_64).
-- Prebuilt native libraries for every platform, so nothing is compiled during your build.
-- Hardware-accelerated encoding and decoding through VideoToolbox on iOS and macOS.
-- Android Storage Access Framework (SAF) URIs can be used directly as inputs and outputs.
-- iOS and macOS integrate through Swift Package Manager (Flutter 3.24 or later) or CocoaPods, using checksum-pinned XCFrameworks.
+Thank you for your support and interest in this project.
 
-## Installation
+<img src="https://github.com/arthenica/ffmpeg-kit/blob/main/docs/assets/ffmpeg-kit-icon-v9.png" width="240">
 
-```yaml
-dependencies:
-  ffmpeg_kit_flutter_new: ^4.6.3
-```
+`FFmpegKit` is a collection of tools to use `FFmpeg`<sup>1</sup> in `Android`, `iOS`, `Linux`, `macOS`, `tvOS`, `Flutter` and `React Native` applications.
 
-```dart
-import 'package:ffmpeg_kit_flutter_new/ffmpeg_kit.dart';
-```
+It includes scripts to build `FFmpeg` native libraries, a wrapper library to run `FFmpeg`/`FFprobe` commands in
+ applications and 8 prebuilt binary packages available at [Github](https://github.com/arthenica/ffmpeg-kit/releases),
+ [Maven Central](https://search.maven.org), [CocoaPods](https://cocoapods.org), [pub](https://pub.dev) and [npm](https://www.npmjs.com).
 
-## Quick start
+### 1. Features
+- Scripts to build FFmpeg native libraries
+- `FFmpegKit` wrapper library to run `FFmpeg`/`FFprobe` commands in applications
+- Supports native platforms: Android, iOS, Linux, macOS and tvOS
+- Supports hybrid platforms: Flutter, React Native
+- Based on FFmpeg `v4.5-dev` or later with optional system and external libraries
+- 8 prebuilt binary packages available at [Github](https://github.com/arthenica/ffmpeg-kit/releases), [Maven Central](https://search.maven.org), [CocoaPods](https://cocoapods.org), [pub](https://pub.dev) and [npm](https://www.npmjs.com)
+- Licensed under `LGPL 3.0` by default, `GPL v3.0` if GPL licensed libraries are enabled
 
-```dart
-import 'package:ffmpeg_kit_flutter_new/ffmpeg_kit.dart';
+### 2. Android
 
-final session = await FFmpegKit.execute('-i input.mp4 -c:v mpeg4 output.mp4');
-final returnCode = await session.getReturnCode();
+See [Android](android) to learn more about `FFmpegKit` for `Android`.
 
-if (ReturnCode.isSuccess(returnCode)) {
-  // Success
-} else if (ReturnCode.isCancel(returnCode)) {
-  // Cancelled
-} else {
-  // Failed: inspect await session.getLogs()
-}
-```
+### 3. iOS, macOS, tvOS
 
-## Choosing a package
+See [Apple](apple) to use `FFmpegKit` on `Apple` platforms (`iOS`, `macOS`, `tvOS`).
 
-The plugin is published as eight packages that share the same Dart API and differ only in the native libraries they bundle. Choose the smallest one that covers the codecs you need. The GPL-licensed codecs (`x264`, `x265`, `xvidcore`, `vid.stab`) are only included in the `-gpl` packages.
+### 4. Flutter
 
-| Package | Contents |
-|---|---|
-| [`_min`](https://pub.dev/packages/ffmpeg_kit_flutter_new_min) | Smallest build, core FFmpeg only |
-| [`_min_gpl`](https://pub.dev/packages/ffmpeg_kit_flutter_new_min_gpl) | Minimal plus GPL codecs (x264, x265, xvid, vid.stab) |
-| [`_https`](https://pub.dev/packages/ffmpeg_kit_flutter_new_https) | Adds TLS (`gnutls`) for `https://` inputs |
-| [`_https_gpl`](https://pub.dev/packages/ffmpeg_kit_flutter_new_https_gpl) | HTTPS plus GPL codecs |
-| [`_audio`](https://pub.dev/packages/ffmpeg_kit_flutter_new_audio) | Audio codecs (mp3, opus, vorbis, speex and others) |
-| [`_video`](https://pub.dev/packages/ffmpeg_kit_flutter_new_video) | Video codecs (dav1d, vpx, theora, webp and others) |
-| [`_full`](https://pub.dev/packages/ffmpeg_kit_flutter_new_full) | Every library except the GPL codecs |
-| [`ffmpeg_kit_flutter_new`](https://pub.dev/packages/ffmpeg_kit_flutter_new) (this package) | Every library, including the GPL codecs |
+See [Flutter](flutter/flutter) to learn more about `FFmpegKit` for `Flutter`.
 
-## Enabled libraries
+### 5. Linux
 
-The table lists the system and external libraries enabled in each package's Android, iOS and macOS builds. The Windows and Linux bundles are built against MSYS2 and system packages respectively; the Windows bundle lists every DLL it contains in `LICENSES/NOTICE.txt`.
+See [Linux](linux) to learn more about `FFmpegKit` for `Linux`.
+
+### 6. React Native
+
+See [React Native](react-native) to learn more about `FFmpegKit` for `React Native`.
+
+### 7. Build Scripts
+
+Use `android.sh`, `ios.sh`, `linux.sh`, `macos.sh` and `tvos.sh` to build `FFmpegKit` for each native platform.
+
+All scripts support additional options to enable optional libraries and disable platform architectures. See
+[Building](https://github.com/arthenica/ffmpeg-kit/wiki/Building) wiki page for the details.
+
+### 8. FFmpegKit Library
+
+`FFmpegKit` is a wrapper library that allows you to easily run `FFmpeg`/`FFprobe` commands in applications. It 
+provides additional features on top of `FFmpeg` to enable platform specific resources, control how commands are 
+executed and how the results are handled.
+
+`Android` library of `FFmpegKit` has a `Java` API, `Apple` libraries (`iOS`, `macOS`, `tvOS`) have an `Objective-C`
+ API, `Flutter` library comes with a `Dart` API, `Linux` library has a `C++` API and `React Native` library provides
+a `JavaScript` API with `Typescript` definitions, which are identical in terms of features and capabilities.
+
+### 9. Packages
+
+There are eight different `ffmpeg-kit` packages distributed on 
+[Github](https://github.com/arthenica/ffmpeg-kit/releases), 
+[Maven Central](https://search.maven.org), [CocoaPods](https://cocoapods.org), [pub](https://pub.dev) and
+ [npm](https://www.npmjs.com).
+Below you can see which system libraries and external libraries are enabled in each one of them.
+
+Please remember that some parts of `FFmpeg` are licensed under the `GPL` and only `GPL` licensed `ffmpeg-kit` packages 
+include them.
 
 <table>
 <thead>
@@ -97,167 +111,138 @@ The table lists the system and external libraries enabled in each package's Andr
 </tr>
 <tr>
 <td align="center"><sup>ios system libraries</sup></td>
-<td align="center" colspan=8><sup>bzip2</sup><br><sup>AudioToolbox</sup><br><sup>AVFoundation</sup><br><sup>iconv</sup><br><sup>zlib</sup></td>
+<td align="center" colspan=8><sup>bzip2</sup><br><sup>AudioToolbox</sup><br><sup>AVFoundation</sup><br><sup>iconv</sup><br><sup>VideoToolbox</sup><br><sup>zlib</sup></td>
 </tr>
 <tr>
-<td align="center"><sup>ios VideoToolbox</sup></td>
-<td align="center"><sup>VideoToolbox</sup></td>
-<td align="center"><sup>VideoToolbox</sup></td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center"><sup>VideoToolbox</sup></td>
-<td align="center"><sup>VideoToolbox</sup></td>
-</tr>
 <tr>
 <td align="center"><sup>macos system libraries</sup></td>
 <td align="center" colspan=8><sup>bzip2</sup><br><sup>AudioToolbox</sup><br><sup>AVFoundation</sup><br><sup>Core Image</sup><br><sup>iconv</sup><br><sup>OpenCL</sup><br><sup>OpenGL</sup><br><sup>VideoToolbox</sup><br><sup>zlib</sup></td>
 </tr>
+<tr>
+<td align="center"><sup>tvos system libraries</sup></td>
+<td align="center" colspan=8><sup>bzip2</sup><br><sup>AudioToolbox</sup><br><sup>iconv</sup><br><sup>VideoToolbox</sup><br><sup>zlib</sup></td>
+</tr>
 </tbody>
 </table>
 
-## Platform support
+ - `AVFoundation` is not available on `tvOS`
+ - `VideoToolbox` is not available on LTS releases of `iOS` and `tvOS`
+ - `zimg` is supported since `v4.5.1`
 
-| Platform | Minimum version | Architectures |
-|---|---|---|
-| Android | API 24 | `arm-v7a`, `arm-v7a-neon`, `arm64-v8a`, `x86`, `x86_64` |
-| iOS | 14.0 | `arm64` (device); `arm64`, `x86_64` (simulator), shipped as `.xcframework` |
-| macOS | 10.15 | `arm64`, `x86_64` |
-| Windows | 10 | `x86_64` |
-| Linux | - | `x86_64` |
+### 10. Versions
 
-### Windows
+`FFmpegKit` binaries generated use the same major and minor version numbers as the upstream `FFmpeg` project. The
+third and last number in the version string, if exists, is specific to `FFmpegKit`. It shows different releases from
+the same `FFmpeg` release branch. 
 
-Prebuilt FFmpeg 8.1.2 libraries are downloaded into your application's build directory the first time you build. To build against a locally built bundle instead, set `FFMPEGKIT_LOCAL_DIR` (as an environment variable or a CMake cache variable) to the bundle directory before running `flutter run` or `flutter build windows`.
+`dev` part in the version string indicates that `FFmpeg` source code is cloned from the `FFmpeg` `master` branch and
+the exact version number of `FFmpeg` is obtained using the `git describe --tags` command.
 
-The bundle's license notices are installed next to your executable in `licenses/ffmpeg_kit_flutter_new/`. See [License](#license).
+|    Platforms     |                                 FFmpegKit Version                                 | FFmpeg Version | Release Date |
+|:----------------:|:---------------------------------------------------------------------------------:|:--------------:|:------------:|
+|     Flutter      |   [6.0.3](https://github.com/arthenica/ffmpeg-kit/releases/tag/flutter.v6.0.3)    |      6.0       | Sep 19, 2023 |
+|   React Native   | [6.0.2](https://github.com/arthenica/ffmpeg-kit/releases/tag/react.native.v6.0.2) |      6.0       | Sep 19, 2023 |
+|     Flutter      |   [6.0.2](https://github.com/arthenica/ffmpeg-kit/releases/tag/flutter.v6.0.2)    |      6.0       | Sep 03, 2023 |
+|   React Native   | [6.0.1](https://github.com/arthenica/ffmpeg-kit/releases/tag/react.native.v6.0.1) |      6.0       | Sep 03, 2023 |
+|     Flutter      |   [6.0.1](https://github.com/arthenica/ffmpeg-kit/releases/tag/flutter.v6.0.1)    |      6.0       | Sep 03, 2023 |
+|   React Native   | [6.0.0](https://github.com/arthenica/ffmpeg-kit/releases/tag/react.native.v6.0.0) |      6.0       | Aug 27, 2023 |
+|     Flutter      |   [6.0.0](https://github.com/arthenica/ffmpeg-kit/releases/tag/flutter.v6.0.0)    |      6.0       | Aug 27, 2023 |
+|      Android<br>Apple       |         [6.0](https://github.com/arthenica/ffmpeg-kit/releases/tag/v6.0)          |      6.0       | Aug 21, 2023 |
+|   React Native   | [5.1.0](https://github.com/arthenica/ffmpeg-kit/releases/tag/react.native.v5.1.0) |     5.1.2      | Oct 02, 2022 |
+|     Flutter      |   [5.1.0](https://github.com/arthenica/ffmpeg-kit/releases/tag/flutter.v5.1.0)    |     5.1.2      | Oct 02, 2022 |
+|     Android<br>Apple      |         [5.1](https://github.com/arthenica/ffmpeg-kit/releases/tag/v5.1)          |     5.1.2      | Sep 29, 2022 |
+|   React Native   | [4.5.2](https://github.com/arthenica/ffmpeg-kit/releases/tag/react.native.v4.5.2) |  4.5-dev-3393  | May 25, 2022 |
+|     Flutter      |   [4.5.1](https://github.com/arthenica/ffmpeg-kit/releases/tag/flutter.v4.5.1)    |  4.5-dev-3393  | Jan 02, 2022 |
+|   React Native   | [4.5.1](https://github.com/arthenica/ffmpeg-kit/releases/tag/react.native.v4.5.1) |  4.5-dev-3393  | Jan 02, 2022 |
+|     Android      |       [4.5.1](https://github.com/arthenica/ffmpeg-kit/releases/tag/v4.5.1)        |  4.5-dev-3393  | Jan 01, 2022 |
+|      Apple       |       [4.5.1](https://github.com/arthenica/ffmpeg-kit/releases/tag/v4.5.1)        |  4.5-dev-3393  | Dec 30, 2021 |
+|     Flutter      |   [4.5.0](https://github.com/arthenica/ffmpeg-kit/releases/tag/flutter.v4.5.0)    |  4.5-dev-2008  | Oct 05, 2021 |
+|   React Native   | [4.5.0](https://github.com/arthenica/ffmpeg-kit/releases/tag/react.native.v4.5.0) |  4.5-dev-2008  | Oct 01, 2021 |
+| Android<br>Apple |         [4.5](https://github.com/arthenica/ffmpeg-kit/releases/tag/v4.5)          |  4.5-dev-2008  | Sep 18, 2021 |
+| Android<br>Apple |         [4.4](https://github.com/arthenica/ffmpeg-kit/releases/tag/v4.4)          |  4.4-dev-3015  | Mar 03, 2021 |
 
-### Linux
+### 11. LTS Releases
 
-Prebuilt FFmpeg 8.1.2 libraries are downloaded at build time in the same way as on Windows, and `FFMPEGKIT_LOCAL_DIR` works the same way. In addition to Flutter's standard Linux prerequisites (`clang`, `cmake`, `ninja-build`, `pkg-config`, `libgtk-3-dev`), the plugin requires `libjson-glib-dev`:
+`FFmpegKit` binaries are published in two release variants: `Main Release` and `LTS Release`. 
 
-```bash
-sudo apt-get install libjson-glib-dev   # Debian, Ubuntu
-sudo dnf install json-glib-devel        # Fedora
-```
+- Main releases include complete functionality of the library and support the latest SDK/API features.
 
-## Usage
+- LTS releases are customized to support a wider range of devices. They are built using older API/SDK versions, so some features are not available on them.
 
-<details open>
-<summary><strong>Execute a command and read the result</strong></summary>
+This table shows the differences between two variants.
 
-```dart
-import 'package:ffmpeg_kit_flutter_new/ffmpeg_kit.dart';
+|        | Main Release |                        LTS Release                        |
+| :----: | :----: |:---------------------------------------------------------:|
+| Android API Level | 24 |                            16                             | 
+| Android Camera Access | Yes |                             -                             |
+| Android Architectures | arm-v7a-neon<br/>arm64-v8a<br/>x86<br/>x86-64 | arm-v7a<br/>arm-v7a-neon<br/>arm64-v8a<br/>x86<br/>x86-64 |
+| iOS Min SDK | 12.1 |                            10                             |
+| iOS VideoToolbox | Yes |                             -                             |
+| iOS AVFoundation | Yes |                             -                             |
+| iOS Architectures | arm64<br/>arm64-simulator<br/>arm64-mac-catalyst<br/>x86-64<br/>x86-64-mac-catalyst |            armv7<br/>arm64<br/>i386<br/>x86-64            |
+| iOS Bundle Format | XCFrameworks |                        Frameworks                         |
+| Mac Catalyst Min Version | 14.0 |                             -                             |
+| macOS Min SDK | 10.15 |                           10.12                           |
+| macOS AVFoundation | Yes |                             -                             |
+| macOS Architectures | arm64<br/>x86-64 |                          x86-64                           |
+| macOS Bundle Format | XCFrameworks |                        Frameworks                         |
+| tvOS Min SDK | 11.0 |                           10.0                            |
+| tvOS VideoToolbox | Yes |                             -                             |
+| tvOS Architectures | arm64<br/>x86-64<br/>arm64-simulator |                     arm64<br/>x86-64                      |
+| tvOS Bundle Format | XCFrameworks |                        Frameworks                         |
 
-FFmpegKit.execute('-i file1.mp4 -c:v mpeg4 file2.mp4').then((session) async {
-  final returnCode = await session.getReturnCode();
-  if (ReturnCode.isSuccess(returnCode)) {
-    // Success
-  } else if (ReturnCode.isCancel(returnCode)) {
-    // Cancelled
-  } else {
-    // Failed
-  }
-});
-```
+### 12. Documentation
 
-</details>
+A more detailed documentation is available under [Wiki](https://github.com/arthenica/ffmpeg-kit/wiki).
 
-<details>
-<summary><strong>Inspect a session</strong></summary>
+### 13. Test Applications
 
-```dart
-FFmpegKit.execute('-i file1.mp4 -c:v mpeg4 file2.mp4').then((session) async {
-  final sessionId = session.getSessionId();
-  final command = session.getCommand();
-  final state = await session.getState();
-  final returnCode = await session.getReturnCode();
-  final duration = await session.getDuration();
-  final output = await session.getOutput();
-  final logs = await session.getLogs();
-  final statistics = await (session as FFmpegSession).getStatistics();
-});
-```
+You can see how `FFmpegKit` is used inside an application by running test applications created under 
+[FFmpegKit Test](https://github.com/arthenica/ffmpeg-kit-test) project.
 
-</details>
+All applications are identical and supports command execution, video encoding, accessing https urls, encoding audio,
+burning subtitles, video stabilisation, pipe operations and concurrent command execution.
 
-<details>
-<summary><strong>Run asynchronously with callbacks</strong></summary>
+### 14. License
 
-```dart
-FFmpegKit.executeAsync('-i file1.mp4 -c:v mpeg4 file2.mp4', (Session session) async {
-  // Called when the session completes
-}, (Log log) {
-  // Called for each log line
-}, (Statistics statistics) {
-  // Called when the session reports statistics
-});
-```
+`FFmpegKit` library alone is licensed under the `LGPL v3.0`.
 
-</details>
+`FFmpegKit` bundles (`.aar` archives, `frameworks`, `xcframeworks`), which include both  `FFmpegKit` and `FFmpeg`
+libraries, are also licensed under the `LGPL v3.0`. However, if the source code is built using the optional
+`--enable-gpl` flag or prebuilt binaries with `-gpl` postfix are used, then `FFmpegKit` bundles become subject to the
+`GPL v3.0`. Because, `FFmpeg` is licensed under the `GPL v3.0` in those bundles. And that makes the whole bundle
+effectively subject to the `GPL v3.0`.
 
-<details>
-<summary><strong>Read media information with FFprobe</strong></summary>
+`FFmpegKit` build scripts always configure `FFmpeg` with `--enable-version3` option. And never enable non-free
+libraries. Thus, `FFmpeg` libraries created by `FFmpegKit` are licensed under the `LGPL v3.0` by default. Only when
+`--enable-gpl` is provided they become subject to `GPL v3.0`. That is how prebuilt binaries with `-gpl` postfix are
+compiled.
 
-```dart
-FFprobeKit.getMediaInformation('<file path or url>').then((session) async {
-  final information = await session.getMediaInformation();
-});
-```
+Refer to [Licenses](https://github.com/arthenica/ffmpeg-kit/wiki/Licenses) to see the licenses of all libraries.
+[Trademark](https://github.com/arthenica/ffmpeg-kit/wiki/Trademark) lists the trademarks used in the `FFmpegKit`
+documentation.
 
-</details>
+### 15. Patents
 
-<details>
-<summary><strong>Cancel sessions</strong></summary>
+It is not clearly explained in their documentation, but it is believed that `FFmpeg`, `kvazaar`, `x264` and `x265`
+include algorithms which are subject to software patents. If you live in a country where software algorithms are
+patentable then you'll probably need to pay royalty fees to patent holders. We are not lawyers though, so we recommend
+that you seek legal advice first. See [FFmpeg Patent Mini-FAQ](https://ffmpeg.org/legal.html).
 
-```dart
-FFmpegKit.cancel();          // Cancel all sessions
-FFmpegKit.cancel(sessionId); // Cancel one session
-```
+`openh264` clearly states that it uses patented algorithms. Therefore, if you build `ffmpeg-kit` with `openh264` and
+distribute that library, then you are subject to pay MPEG LA licensing fees. Refer to
+[OpenH264 FAQ](https://www.openh264.org/faq.html) page for the details.
 
-</details>
+### 16. Trademarks
 
-<details>
-<summary><strong>Android: Storage Access Framework (SAF)</strong></summary>
+<sup>1</sup> `FFmpeg` is a trademark of [Fabrice Bellard](http://www.bellard.org/). `FFmpegKit` is an independent project and not affiliated with the `FFmpeg` trademark holder.
 
-```dart
-// Read from a document
-FFmpegKitConfig.selectDocumentForRead('*/*').then((uri) {
-  FFmpegKitConfig.getSafParameterForRead(uri!).then((safUrl) {
-    FFmpegKit.executeAsync("-i ${safUrl!} -c:v mpeg4 file2.mp4");
-  });
-});
+### 17. Contributing
 
-// Write to a document
-FFmpegKitConfig.selectDocumentForWrite('video.mp4', 'video/*').then((uri) {
-  FFmpegKitConfig.getSafParameterForWrite(uri!).then((safUrl) {
-    FFmpegKit.executeAsync("-i file1.mp4 -c:v mpeg4 ${safUrl}");
-  });
-});
-```
+See our [CONTRIBUTING](CONTRIBUTING.md) guide.
 
-</details>
+### 18. See Also
 
-<details>
-<summary><strong>Global callbacks and fonts</strong></summary>
-
-```dart
-FFmpegKitConfig.enableLogCallback((log) { final message = log.getMessage(); });
-FFmpegKitConfig.enableStatisticsCallback((statistics) { final size = statistics.getSize(); });
-FFmpegKitConfig.setFontDirectoryList(["/system/fonts", "/System/Library/Fonts", "<folder with fonts>"]);
-```
-
-</details>
-
-## License
-
-The plugin is licensed under LGPL 3.0. This package also includes GPL 3.0 components (`x264`, `x265`, `xvidcore`, `vid.stab`), so an application that uses it is distributed under GPL 3.0.
-
-FFmpeg and the bundled third-party libraries keep their own licenses. On Windows, the prebuilt bundle includes a `LICENSES/` directory with the FFmpeg and FFmpegKit license texts, and a `NOTICE.txt` that lists every bundled DLL with its license, version and a link to its exact source. The plugin installs it into `licenses/ffmpeg_kit_flutter_new/` next to your executable; ship that directory with your application.
-
-## Support
-
-- Questions and discussion: [Discord](https://discord.gg/8NVwykjA)
-- Bug reports and feature requests: [GitHub issues](https://github.com/sk3llo/ffmpeg_kit_flutter/issues)
-- Support development: [Buy Me a Coffee](https://buymeacoffee.com/sk3llo)
+- [FFmpeg API Documentation](https://ffmpeg.org/doxygen/4.0/index.html)
+- [FFmpeg Wiki](https://trac.ffmpeg.org/wiki/WikiStart)
+- [FFmpeg External Library Licenses](https://www.ffmpeg.org/doxygen/4.0/md_LICENSE.html)
