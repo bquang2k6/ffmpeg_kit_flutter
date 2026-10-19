@@ -3,10 +3,14 @@ name: Build Minimal Android AAR
 on:
   workflow_dispatch:
     inputs:
-      include_arm_v7a:
-        description: 'Build cả arm-v7a-neon (32-bit cũ) ngoài arm64-v8a?'
-        type: boolean
-        default: false
+      arch_preset:
+        description: 'Kiến trúc CPU cần build vào AAR:'
+        type: choice
+        options:
+          - 'universal-arm' # arm64-v8a + armeabi-v7a (Chạy 100% điện thoại thật, ~6-7MB)
+          - 'arm64-only'    # Chỉ arm64-v8a (Siêu nhẹ ~3MB, thiết bị đời mới)
+          - 'all'           # Cả điện thoại thật lẫn máy ảo PC (arm64, armv7, x86, x86_64)
+        default: 'universal-arm'
 
   push:
     paths:
@@ -57,20 +61,31 @@ jobs:
           chmod +x android.sh
           chmod -R +x scripts/
 
-      - name: Run Android Build Script
+      - name: Configure Architectures and Run Build
         env:
           ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
           ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
+          PRESET: ${{ github.event.inputs.arch_preset || 'universal-arm' }}
         run: |
           echo "Using Android NDK at: ${ANDROID_NDK_ROOT}"
-          
-          # Cấu hình cờ kiến trúc
-          ARCH_FLAGS="--disable-x86 --disable-x86-64"
-          if [ "${{ github.event.inputs.include_arm_v7a }}" != "true" ]; then
-            ARCH_FLAGS="${ARCH_FLAGS} --disable-arm-v7a --disable-arm-v7a-neon"
-          else
-            ARCH_FLAGS="${ARCH_FLAGS} --disable-arm-v7a"
-          fi
+          echo "Selected architecture preset: ${PRESET}"
+
+          case "${PRESET}" in
+            "arm64-only")
+              ARCH_FLAGS="--disable-arm-v7a --disable-arm-v7a-neon --disable-x86 --disable-x86-64"
+              ;;
+            "universal-arm")
+              # Đóng gói cả 64-bit và 32-bit (chạy trên 100% thiết bị Android thực tế)
+              # Bỏ x86/x86_64 máy ảo và arm-v7a non-neon cũ
+              ARCH_FLAGS="--disable-arm-v7a --disable-x86 --disable-x86-64"
+              ;;
+            "all")
+              ARCH_FLAGS=""
+              ;;
+            *)
+              ARCH_FLAGS="--disable-arm-v7a --disable-x86 --disable-x86-64"
+              ;;
+          esac
 
           ./android.sh \
             --enable-x264 \
