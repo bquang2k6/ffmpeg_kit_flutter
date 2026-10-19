@@ -312,8 +312,6 @@ for library in {0..61}; do
       CONFIGURE_POSTFIX+=" --disable-sdl2"
     elif [[ ${library} -eq ${LIBRARY_SYSTEM_ZLIB} ]]; then
       CONFIGURE_POSTFIX+=" --disable-zlib"
-    elif [[ ${library} -eq ${LIBRARY_ANDROID_MEDIA_CODEC} ]]; then
-      CONFIGURE_POSTFIX+=" --disable-mediacodec"
     elif [[ ${library} -eq ${LIBRARY_OPENSSL} ]]; then
       CONFIGURE_POSTFIX+=" --disable-openssl"
     fi
@@ -345,20 +343,6 @@ if [[ -n ${FFMPEG_KIT_LTS_BUILD} ]] && [[ ${API} -lt 18 ]]; then
   export LDFLAGS+=" -Wl,--whole-archive ${BASEDIR}/android/ffmpeg-kit-android-lib/src/main/cpp/libandroidltssupport.a -Wl,--no-whole-archive"
 fi
 
-# MINIMAL BUILD: whitelist only the components required by the app
-# (h264 encode via x264, aac/mp3/mjpeg/png/webp, mp4/mp3/image2 containers,
-# crop/transpose/hflip/vflip/scale filters). Set FFMPEG_KIT_TRIM=1 to use.
-if [[ -n ${FFMPEG_KIT_TRIM} ]]; then
-  CONFIGURE_POSTFIX+="
-  --disable-everything \
-  --enable-protocol=file,pipe \
-  --enable-demuxer=mov,mp3,image2 \
-  --enable-muxer=mp4,mp3,image2,webp \
-  --enable-decoder=h264,hevc,h264_mediacodec,hevc_mediacodec,mpeg4,mjpeg,png,webp,mp3,aac \
-  --enable-encoder=libx264,h264_mediacodec,hevc_mediacodec,mpeg4,aac,libmp3lame,mjpeg,png,libwebp \
-  --enable-parser=h264,hevc,mpeg4video,mjpeg,png,mp3 \
-  --enable-filter=crop,transpose,hflip,vflip,scale,format,null,anull,setpts,atempo,trim,atrim,asetpts"
-fi
 
 # ALWAYS BUILD SHARED LIBRARIES
 BUILD_LIBRARY_OPTIONS="--disable-static --enable-shared"
@@ -454,38 +438,39 @@ fi
   --enable-swscale \
   ${BUILD_LIBRARY_OPTIONS} \
   --enable-pthreads \
-  --enable-v4l2-m2m \
-  --disable-outdev=fbdev \
-  --disable-indev=fbdev \
   ${SIZE_OPTIONS} \
-  --disable-xmm-clobber-test \
   ${DEBUG_OPTIONS} \
-  --disable-neon-clobber-test \
   --disable-programs \
   --disable-postproc \
   --disable-doc \
-  --disable-htmlpages \
-  --disable-manpages \
-  --disable-podpages \
-  --disable-txtpages \
-  --disable-sndio \
-  --disable-schannel \
-  --disable-securetransport \
-  --disable-xlib \
-  --disable-cuda \
-  --disable-cuvid \
-  --disable-nvenc \
-  --disable-vaapi \
-  --disable-vdpau \
-  --disable-videotoolbox \
-  --disable-audiotoolbox \
-  --disable-appkit \
-  --disable-alsa \
-  --disable-cuda \
-  --disable-cuvid \
-  --disable-nvenc \
-  --disable-vaapi \
-  --disable-vdpau \
+  --disable-everything \
+  --disable-network \
+  --enable-mediacodec \
+  --enable-encoder=libx264 \
+  --enable-encoder=h264_mediacodec \
+  --enable-encoder=aac \
+  --enable-decoder=h264 \
+  --enable-decoder=h264_mediacodec \
+  --enable-decoder=aac \
+  --enable-muxer=mp4 \
+  --enable-muxer=mov \
+  --enable-demuxer=mov \
+  --enable-parser=h264 \
+  --enable-parser=aac \
+  --enable-bsf=h264_mp4toannexb \
+  --enable-bsf=aac_adtstoasc \
+  --enable-protocol=file \
+  --enable-protocol=pipe \
+  --enable-filter=crop \
+  --enable-filter=scale \
+  --enable-filter=format \
+  --enable-filter=null \
+  --enable-filter=buffer \
+  --enable-filter=buffersink \
+  --enable-filter=aformat \
+  --enable-filter=anull \
+  --enable-filter=abuffer \
+  --enable-filter=abuffersink \
   ${CONFIGURE_POSTFIX} 1>>"${BASEDIR}"/build.log 2>&1
 
 if [[ $? -ne 0 ]]; then
