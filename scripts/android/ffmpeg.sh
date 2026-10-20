@@ -443,13 +443,12 @@ fi
   --disable-programs \
   --disable-postproc \
   --disable-doc \
-  --disable-avdevice \
-  --disable-swresample \
   --disable-everything \
   --disable-network \
   --enable-mediacodec \
   --enable-encoder=h264_mediacodec \
   --enable-encoder=libx264 \
+  --enable-encoder=aac \
   --enable-decoder=h264 \
   --enable-decoder=h264_mediacodec \
   --enable-decoder=hevc \
@@ -460,7 +459,9 @@ fi
   --enable-decoder=vp8_mediacodec \
   --enable-decoder=vp9 \
   --enable-decoder=vp9_mediacodec \
+  --enable-decoder=aac \
   --enable-muxer=mp4 \
+  --enable-muxer=mov \
   --enable-demuxer=mov \
   --enable-demuxer=matroska \
   --enable-parser=h264 \
@@ -468,9 +469,11 @@ fi
   --enable-parser=mpeg4video \
   --enable-parser=vp8 \
   --enable-parser=vp9 \
+  --enable-parser=aac \
   --enable-bsf=h264_mp4toannexb \
   --enable-bsf=hevc_mp4toannexb \
   --enable-bsf=vp9_superframe \
+  --enable-bsf=aac_adtstoasc \
   --enable-protocol=file \
   --enable-protocol=pipe \
   --enable-filter=crop \
@@ -483,6 +486,11 @@ fi
   --enable-filter=hflip \
   --enable-filter=vflip \
   --enable-filter=rotate \
+  --enable-filter=aformat \
+  --enable-filter=anull \
+  --enable-filter=abuffer \
+  --enable-filter=abuffersink \
+  --enable-filter=aresample \
   ${CONFIGURE_POSTFIX} 1>>"${BASEDIR}"/build.log 2>&1
 
 if [[ $? -ne 0 ]]; then
