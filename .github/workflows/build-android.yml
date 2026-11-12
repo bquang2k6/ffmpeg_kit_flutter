@@ -88,6 +88,7 @@ jobs:
           esac
 
           ./android.sh \
+            --speed \
             --enable-x264 \
             --enable-gpl \
             --enable-android-media-codec \

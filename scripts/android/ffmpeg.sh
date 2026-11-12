@@ -479,6 +479,13 @@ fi
   --enable-filter=crop \
   --enable-filter=scale \
   --enable-filter=format \
+  --enable-filter=fps \
+  --enable-filter=trim \
+  --enable-filter=atrim \
+  --enable-filter=setpts \
+  --enable-filter=asetpts \
+  --enable-filter=unsharp \
+  --enable-filter=colorspace \
   --enable-filter=null \
   --enable-filter=buffer \
   --enable-filter=buffersink \
