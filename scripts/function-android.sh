@@ -1012,6 +1012,7 @@ android_ndk_cmake() {
   esac
 
   echo ${cmake} \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -DCMAKE_VERBOSE_MAKEFILE=0 \
     -DCMAKE_TOOLCHAIN_FILE="${ANDROID_NDK_ROOT}"/build/cmake/android.toolchain.cmake \
     -DCMAKE_SYSROOT="${ANDROID_SYSROOT}" \

@@ -65,6 +65,7 @@ jobs:
         env:
           ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
           ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
+          CMAKE_POLICY_VERSION_MINIMUM: "3.5"
           PRESET: ${{ github.event.inputs.arch_preset || 'universal-arm' }}
         run: |
           echo "Using Android NDK at: ${ANDROID_NDK_ROOT}"
@@ -94,6 +95,14 @@ jobs:
             --enable-android-media-codec \
             --api-level=24 \
             ${ARCH_FLAGS}
+
+      - name: Dump build.log on failure
+        if: failure()
+        run: |
+          if [ -f build.log ]; then
+            echo "=== Last 120 lines of build.log ==="
+            tail -n 120 build.log
+          fi
 
       - name: Find and list generated AAR files
         run: |
